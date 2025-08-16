@@ -1,0 +1,6 @@
+@travel_bien_quynh_HostAddress = http://localhost:5120
+
+GET {{travel_bien_quynh_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
