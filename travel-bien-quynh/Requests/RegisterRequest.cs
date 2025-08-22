@@ -11,7 +11,8 @@ public class RegisterRequest
 
     [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
     public string Password { get; set; }
-    public string TypeAccount { get; set; } 
+    public string TypeAccount { get; set; }
+    public string Team { get;set; }
     public string VerifyCode { get; set; }
 
 }

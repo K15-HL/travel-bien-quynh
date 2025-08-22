@@ -91,7 +91,7 @@ public class RoomController : ControllerBase
         }
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateRoom(string id, [FromBody] UpdateRoomRequest request)
     {

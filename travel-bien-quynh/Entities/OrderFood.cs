@@ -42,13 +42,13 @@ public class OrderFood : IMongoEntity
     [BsonElement("special-requests")]
     public string SpecialRequests { get; set; }
 
-    [BsonElement("DepartureDate")]
+    [BsonElement("departureDate")]
     public DateTime DepartureDate { get; set; }
 
     [BsonElement("paymentMethod")]
     public string PaymentMethod { get; set; }
 
-    [BsonElement("createdAt")]
-    public DateTime CreatedAt { get; set; }
+    [BsonElement("publishedDate")]
+    public DateTime PublishedDate { get; set; }
 }
 

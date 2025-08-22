@@ -28,11 +28,11 @@ public class News : IMongoEntity
     [BsonElement("image")]
     public string Image { get; set; }
 
-    [BsonElement("Link")]
+    [BsonElement("link")]
     public string Link { get; set; }
 
     [BsonElement("publishedDate")]
     public DateTime PublishedDate { get; set; }
-    public bool IsActive { get; set; }
+    public bool Status { get; set; }
 }
 

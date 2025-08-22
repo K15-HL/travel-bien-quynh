@@ -27,13 +27,14 @@ public class NewsController : ControllerBase
         {
             news.Id,
             news.Title,
+            news.Link,
             news.Image,
             news.Category,
             news.Description,
             news.Author,
             news.Content,
             news.PublishedDate,
-            news.IsActive
+            news.Status
         });
 
         return Ok(new { data = newsResponse });
@@ -65,13 +66,14 @@ public class NewsController : ControllerBase
             var newNews = new News
             {
                 Title = request.Title,
+                Image = request.Image,
+                Link = request.Link,
                 Content = request.Content,
                 Description = request.Description,
                 Author = request.Author,
                 Category = request.Category,
                 PublishedDate = DateTime.UtcNow,
-                Image = request.Image,
-                IsActive = true
+                Status = true
             };
 
             await _newsRepository.CreateAsync(newNews);
@@ -85,7 +87,7 @@ public class NewsController : ControllerBase
         }
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateNews(string id, [FromBody] UpdateNewsRequest request)
     {
@@ -103,12 +105,13 @@ public class NewsController : ControllerBase
         try
         {
             existingNews.Title = request.Title;
+            existingNews.Image = request.Image;
+            existingNews.Link = request.Link;
             existingNews.Content = request.Content;
             existingNews.Description = request.Description;
             existingNews.Author = request.Author;
             existingNews.Category = request.Category;
-            existingNews.IsActive = request.IsActive;
-            existingNews.Image = request.Image;
+            existingNews.Status = request.Status;
 
             await _newsRepository.UpdateAsync(id, existingNews);
 

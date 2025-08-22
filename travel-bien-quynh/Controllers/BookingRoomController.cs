@@ -2,16 +2,19 @@
 using travel_bien_quynh.Repositories.Interface;
 using travel_bien_quynh.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+using travel_bien_quynh.Hubs;
 
 [ApiController]
 [Route("api/[controller]/[action]")]
 public class BookingRoomController : ControllerBase
 {
     private readonly IBookingRoomRepository _bookingRoomRepository;
-
-    public BookingRoomController(IBookingRoomRepository bookingRoomRepository)
+    private readonly IHubContext<BookingHub> _hub;
+    public BookingRoomController(IBookingRoomRepository bookingRoomRepository, IHubContext<BookingHub> hub)
     {
         _bookingRoomRepository = bookingRoomRepository;
+        _hub = hub;
     }
 
     [HttpGet]
@@ -84,7 +87,14 @@ public class BookingRoomController : ControllerBase
             };
 
             await _bookingRoomRepository.CreateAsync(newBookingRoom);
-
+            await _hub.Clients.All.SendAsync("ReceiveBooking", new
+            {
+                newBookingRoom.Hotel,
+                newBookingRoom.RoomType,
+                newBookingRoom.FullName,
+                newBookingRoom.CheckIn,
+                newBookingRoom.Checkout
+            });
             return Ok(new { msg = "BookingRoom successfully" });
         }
         catch (Exception ex)

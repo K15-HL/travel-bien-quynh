@@ -12,5 +12,7 @@ public class UpdateUserRequest
     [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
     public string Password { get; set; }
 
+    public string Team { get; set; }
+    public bool Status { get; set; }
     public string VerifyCode { get; set; }
 }

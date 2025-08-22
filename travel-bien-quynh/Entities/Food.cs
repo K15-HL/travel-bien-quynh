@@ -13,6 +13,9 @@ public class Food : IMongoEntity
     [BsonElement("title")]
     public string Title { get; set; }
 
+    [BsonElement("label")]
+    public string Label { get; set; }
+
     [BsonElement("category")]
     public string Category { get; set; }
 
@@ -27,6 +30,6 @@ public class Food : IMongoEntity
 
     [BsonElement("publishedDate")]
     public DateTime PublishedDate { get; set; }
-    public bool IsActive { get; set; }
+    public bool Status { get; set; }
 }
 

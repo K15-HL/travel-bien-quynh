@@ -19,8 +19,11 @@ public class Slider : IMongoEntity
     [BsonElement("image")]
     public string Image { get; set; }
 
+    [BsonElement("url")]
+    public string Url { get; set; }
+
     [BsonElement("publishedDate")]
     public DateTime PublishedDate { get; set; }
-    public bool IsActive { get; set; }
+    public bool Status { get; set; }
 }
 

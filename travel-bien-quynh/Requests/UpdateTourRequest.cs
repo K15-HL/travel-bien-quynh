@@ -16,5 +16,5 @@ public class UpdateTourRequest
     public string Image { get; set; }
     public decimal Price { get; set; }
     public List<Schedule> List { get; set; }
-    public bool IsActive { get; set; }
+    public bool Status { get; set; }
 }

@@ -28,6 +28,9 @@ namespace travel_bien_quynh.Controllers
             var commentResponse = commentList.Select(comment => new
             {
                 comment.FullName,
+                comment.Email,
+                comment.Message,
+                comment.PublishedDate,
             });
 
             return Ok(new { data = commentResponse });
@@ -47,11 +50,14 @@ namespace travel_bien_quynh.Controllers
                 var newComment = new Comment
                 {
                     FullName = request.FullName,
+                    Email = request.Email,
+                    Message = request.Message,
+                    PublishedDate = DateTime.UtcNow,
                 };
 
                 await _commentRepository.CreateAsync(newComment);
 
-                return Ok(new { msg = "okay created successfully" });
+                return Ok(new { msg = "Created successfully" });
             }
             catch (Exception ex)
             {
@@ -76,15 +82,17 @@ namespace travel_bien_quynh.Controllers
             try
             {
                 existingComment.FullName = request.FullName;
+                existingComment.Email = request.Email;
+                existingComment.Message = request.Message;
 
                 await _commentRepository.UpdateAsync(id, existingComment);
 
-                return Ok(new { msg = "c updated successfully" });
+                return Ok(new { msg = "Updated successfully" });
             }
             catch (Exception ex)
             {
                 // Log the error
-                return StatusCode(500, new { msg = "An error occurred while updating the news", error = ex.Message });
+                return StatusCode(500, new { msg = "An error occurred while updating", error = ex.Message });
             }
         }
     }

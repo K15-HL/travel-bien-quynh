@@ -10,7 +10,11 @@ public class Comment : IMongoEntity
     public string Id { get; set; }
     [BsonElement("fullName")]
     public string FullName { get; set; }
+    [BsonElement("email")]
+    public string Email { get; set; }
+    [BsonElement("message")]
+    public string Message { get; set; }
 
-    [BsonDateTimeOptions]
-    public DateTime CreatedAt { get; set; }
+    [BsonElement("publishedDate")]
+    public DateTime PublishedDate { get; set; }
 }

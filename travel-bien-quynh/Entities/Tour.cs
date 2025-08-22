@@ -16,7 +16,7 @@ public class Tour : IMongoEntity
     [BsonElement("label")]
     public string Label { get; set; }
 
-    [BsonElement("Rating")]
+    [BsonElement("rating")]
     public double Rating { get; set; }
     [BsonElement("description")]
     public string Description { get; set; }
@@ -29,7 +29,7 @@ public class Tour : IMongoEntity
     [BsonElement("peopleRange")]
 
     public string PeopleRange { get; set; }
-    [BsonElement("Schedule")]
+    [BsonElement("schedule")]
     public string Schedule { get; set; }
 
     [BsonElement("list")]
@@ -46,7 +46,7 @@ public class Tour : IMongoEntity
 
     [BsonElement("publishedDate")]
     public DateTime PublishedDate { get; set; }
-    public bool IsActive { get; set; }
+    public bool Status { get; set; }
 }
 
 public class Schedule

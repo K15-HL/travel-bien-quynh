@@ -20,19 +20,20 @@ public class FoodController : ControllerBase
         var foodList = await _foodRepository.GetAsync();
         if (foodList == null)
         {
-            return NotFound(new { msg = "No news found" });
+            return NotFound(new { msg = "Not found" });
         }
 
         var foodResponse = foodList.Select(food => new
         {
             food.Id,
             food.Title,
+            food.Label,
             food.Price,
             food.Category,
             food.Image,
             food.Content,
             food.PublishedDate,
-            food.IsActive
+            food.Status
         });
 
         return Ok(new { data = foodResponse });
@@ -44,7 +45,7 @@ public class FoodController : ControllerBase
         var news = await _foodRepository.GetAsync(id);
         if (news == null)
         {
-            return NotFound(new { msg = "Food not found" });
+            return NotFound(new { msg = "Not found" });
         }
 
         return Ok(new { data = news });
@@ -64,22 +65,23 @@ public class FoodController : ControllerBase
             var newFood = new Food
             {
                 Title = request.Title,
+                Label = request.Label,
                 Content = request.Content,
                 Category = request.Category,
                 Price = request.Price,
                 PublishedDate = DateTime.UtcNow,
                 Image = request.Image,
-                IsActive = true
+                Status = true
             };
 
             await _foodRepository.CreateAsync(newFood);
 
-            return Ok(new { msg = "Food created successfully" });
+            return Ok(new { msg = "Created successfully" });
         }
         catch (Exception ex)
         {
             // Log the error
-            return StatusCode(500, new { msg = "An error occurred while creating the news", error = ex.Message });
+            return StatusCode(500, new { msg = "An error occurred while creating", error = ex.Message });
         }
     }
 
@@ -101,15 +103,16 @@ public class FoodController : ControllerBase
         try
         {
             existingFood.Title = request.Title;
+            existingFood.Label = request.Label;
             existingFood.Content = request.Content;
             existingFood.Category = request.Content;
             existingFood.Price = request.Price;
-            existingFood.IsActive = request.IsActive;
+            existingFood.Status = request.Status;
             existingFood.Image = request.Image;
 
             await _foodRepository.UpdateAsync(id, existingFood);
 
-            return Ok(new { msg = "Food updated successfully" });
+            return Ok(new { msg = "Updated successfully" });
         }
         catch (Exception ex)
         {

@@ -29,4 +29,7 @@ public class User : IMongoEntity
 
     [BsonDateTimeOptions]
     public DateTime CreatedAt { get; set; }
+    [BsonElement("team")]
+    public string Team { get; set; }
+    public bool Status { get; set; }
 }

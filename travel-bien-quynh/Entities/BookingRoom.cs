@@ -47,7 +47,8 @@ public class BookingRoom : IMongoEntity
 
     [BsonElement("totalPrice")]
     public decimal TotalPrice { get; set; }
-    [BsonElement("createdAt")]
-    public DateTime CreatedAt { get; set; }
+
+    [BsonElement("publishedDate")]
+    public DateTime PublishedDate { get; set; }
 }
 

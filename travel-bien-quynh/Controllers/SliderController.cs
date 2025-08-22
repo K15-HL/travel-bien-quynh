@@ -17,34 +17,36 @@ public class SliderController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllSlider()
     {
-        var roomList = await _sliderRepository.GetAsync();
-        if (roomList == null)
+        var sliderList = await _sliderRepository.GetAsync();
+        if (sliderList == null)
         {
-            return NotFound(new { msg = "No room found" });
+            return NotFound(new { msg = "No Slider found" });
         }
 
-        var roomResponse = roomList.Select(room => new
+        var sliderResponse = sliderList.Select(slider => new
         {
-            room.Id,
-            room.Image,
-            room.Description,
-            room.PublishedDate,
-            room.IsActive
+            slider.Id,
+            slider.Image,
+            slider.Title,
+            slider.Description,
+            slider.Url,
+            slider.PublishedDate,
+            slider.Status,
         });
 
-        return Ok(new { data = roomResponse });
+        return Ok(new { data = sliderResponse });
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSliderById(string id)
     {
-        var room = await _sliderRepository.GetAsync(id);
-        if (room == null)
+        var slider = await _sliderRepository.GetAsync(id);
+        if (slider == null)
         {
             return NotFound(new { msg = "Slider not found" });
         }
 
-        return Ok(new { data = room });
+        return Ok(new { data = slider });
     }
 
     //[Authorize]
@@ -64,12 +66,13 @@ public class SliderController : ControllerBase
                 Image = request.Image,
                 Description = request.Description,
                 PublishedDate = DateTime.UtcNow,
-                IsActive = true
+                Url = request.Url,
+                Status = true
             };
 
             await _sliderRepository.CreateAsync(newSlider);
 
-            return Ok(new { msg = "Room created successfully" });
+            return Ok(new { msg = "Slider created successfully" });
         }
         catch (Exception ex)
         {
@@ -90,7 +93,7 @@ public class SliderController : ControllerBase
         var existingSlider = await _sliderRepository.GetAsync(id);
         if (existingSlider == null)
         {
-            return NotFound(new { msg = "Room not found" });
+            return NotFound(new { msg = "Slider not found" });
         }
 
         try
@@ -98,11 +101,11 @@ public class SliderController : ControllerBase
             existingSlider.Title = request.Title;
             existingSlider.Image = request.Image;
             existingSlider.Description = request.Description;
-            existingSlider.IsActive = request.IsActive;
+            existingSlider.Status = request.Status;
 
             await _sliderRepository.UpdateAsync(id, existingSlider);
 
-            return Ok(new { msg = "Room updated successfully" });
+            return Ok(new { msg = "Slider updated successfully" });
         }
         catch (Exception ex)
         {
@@ -118,13 +121,13 @@ public class SliderController : ControllerBase
         var room = await _sliderRepository.GetAsync(id);
         if (room == null)
         {
-            return NotFound(new { msg = "Room not found" });
+            return NotFound(new { msg = "Slider not found" });
         }
 
         try
         {
             await _sliderRepository.DeleteAsync(id);
-            return Ok(new { msg = "Room deleted successfully" });
+            return Ok(new { msg = "Slider deleted successfully" });
         }
         catch (Exception ex)
         {

@@ -224,6 +224,7 @@ public class UsersController : ControllerBase
             Money = 0,
             CreatedAt = DateTime.Now,
             Role = "User",
+            Team = request.Team,
             Ban = false
         });
         if (role == null)

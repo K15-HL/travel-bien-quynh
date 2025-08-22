@@ -38,7 +38,7 @@ public class TourController : ControllerBase
             tour.Description,
             tour.List,
             tour.PublishedDate,
-            tour.IsActive
+            tour.Status
         });
 
         return Ok(new { data = tourResponse });
@@ -81,7 +81,7 @@ public class TourController : ControllerBase
                 Description = request.Description,
                 List = request.List,
                 PublishedDate = DateTime.UtcNow,
-                IsActive = true
+                Status = true
             };
 
             await _tourRepository.CreateAsync(newTour);
@@ -95,7 +95,7 @@ public class TourController : ControllerBase
         }
     }
 
-    [Authorize]
+    //[Authorize]
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateTour(string id, [FromBody] UpdateTourRequest request)
     {
@@ -122,7 +122,7 @@ public class TourController : ControllerBase
             existingTour.DiscountedPrice = request.DiscountedPrice;
             existingTour.TotalReviews = request.TotalReviews;
             existingTour.Schedule = request.Schedule;
-            existingTour.IsActive = request.IsActive;
+            existingTour.Status = request.Status;
 
             await _tourRepository.UpdateAsync(id, existingTour);
 

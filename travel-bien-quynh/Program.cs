@@ -45,9 +45,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost", policy =>
     {
-        policy.WithOrigins("http://localhost:1368", "https://dulichbienquynh.com")
+        policy.WithOrigins("http://localhost:1368", "https://dulichbienquynh.com", "http://127.0.0.1:5500")
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 builder.Services.AddAuthentication(
@@ -87,6 +88,7 @@ builder.Services.AddScoped<IOrderFoodRepository, OrderFoodRepository>();
 //builder.Services.AddScoped<IServiceListRepository, ServiceListRepository>();
 //builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IInformationRepository, InformationRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 //builder.Services.AddScoped<IAtmHistory, AtmHistoty>();
 //builder.Services.AddScoped<IAtmCheck, AtmCheckRepository>();
 //builder.Services.AddScoped<ILogWallet, LogWalletRepository>();
@@ -99,13 +101,16 @@ sp.GetRequiredService<IOptions<EmailConfiguration>>().Value);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddScoped<IAtmService, AtmService>();
-
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-
+app.UseRouting();
 
 app.UseCors("AllowLocalhost");
+
+app.UseAuthentication();  
+app.UseAuthorization();
 // C?u hình Swagger và các middleware
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
@@ -115,7 +120,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 app.MapControllers();
-
+app.MapHub<travel_bien_quynh.Hubs.BookingHub>("/bookingHub");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -123,7 +128,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("AllowLocalhost");
+//app.UseCors("AllowLocalhost");
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
